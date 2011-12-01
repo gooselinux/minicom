@@ -1,0 +1,12 @@
+diff -up minicom-2.3/src/vt100.c.esc minicom-2.3/src/vt100.c
+--- minicom-2.3/src/vt100.c.esc	2007-10-10 22:18:20.000000000 +0200
++++ minicom-2.3/src/vt100.c	2008-08-29 12:53:35.000000000 +0200
+@@ -1040,7 +1040,7 @@ void vt_out(int ch)
+         fputc(P_CONVCAP[0] == 'Y' ? vt_inmap[c] : c, capfp);
+       c = vt_inmap[c];    /* conversion 04.09.97 / jl */
+ #if TRANSLATE
+-      if (vt_type == VT100 && vt_asis == 0)
++      if (vt_type == VT100 && vt_trans[vt_charset] && vt_asis == 0)
+ 	c = vt_trans[vt_charset][c];
+ #endif
+       /* FIXME: This is wrong, but making it right would require

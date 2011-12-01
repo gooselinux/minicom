@@ -1,0 +1,28 @@
+diff -urp minicom-2.3.orig/configure minicom-2.3/configure
+--- minicom-2.3.orig/configure	2008-02-24 11:45:38.000000000 +0100
++++ minicom-2.3/configure	2008-02-24 20:38:16.000000000 +0100
+@@ -6718,7 +6718,7 @@ done
+ 
+ LIBS="$LIBS $TERMLIBS"
+ 
+-if test "x$termlib" = xncurses; then
++if test "x$termlib" = xncurses || test "x$termlib" = xtinfo; then
+ 
+ for ac_header in ncurses/termcap.h
+ do
+diff -urp minicom-2.3.orig/src/window.c minicom-2.3/src/window.c
+--- minicom-2.3.orig/src/window.c	2008-02-24 21:04:29.000000000 +0100
++++ minicom-2.3/src/window.c	2008-02-24 21:05:17.000000000 +0100
+@@ -28,7 +28,11 @@ RCSID("$Id: window.c,v 1.21 2008-02-06 2
+ #include <limits.h>
+ #include <stdarg.h>
+ #include <wchar.h>
+-#include <termcap.h>
++#ifdef HAVE_TERMCAP_H
++#  include <termcap.h>
++#elif defined (HAVE_NCURSES_TERMCAP_H)
++#  include <ncurses/termcap.h>
++#endif
+ 
+ #include "port.h"
+ #include "minicom.h"

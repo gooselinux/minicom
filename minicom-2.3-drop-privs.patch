@@ -1,0 +1,23 @@
+diff -urp minicom-2.3.orig/src/minicom.c minicom-2.3/src/minicom.c
+--- minicom-2.3.orig/src/minicom.c	2008-02-02 23:49:53.000000000 +0100
++++ minicom-2.3/src/minicom.c	2008-02-24 20:45:35.000000000 +0100
+@@ -1132,6 +1132,8 @@ int main(int argc, char **argv)
+           use_status = 1;
+           break;
+         case 'C': /* Capturing */
++          setegid(real_gid);
++          seteuid(real_uid);
+           capfp = sfopen(optarg, "a");
+           if (capfp == NULL) {
+             werror(_("Cannot open capture file"));
+@@ -1139,6 +1141,8 @@ int main(int argc, char **argv)
+           }
+           docap = 1;
+           vt_set(addlf, -1, docap, -1, -1, -1, -1);
++          seteuid(eff_uid);
++          setegid(eff_gid);
+           break;
+         case 'S': /* start Script */
+           strncpy(scr_name, optarg, 33);
+Only in minicom-2.3/src: minicom.c.orig
+Only in minicom-2.3/src: minicom.c.rej
